@@ -13,25 +13,25 @@ let otpServices = new OtpServices(
   "Template ID"
 );
 
-Send OTP:
+1. Send OTP:
 
   //example moble number: 919876543210
   
   otpServices.send(mobile number with country code, (status, res) => console.log(status, res));
 
-Resend OTP: 
+2. Resend OTP: 
 
   otpServices.resend(mobile number with country code, (status, res) => console.log(res));
 
-Verify OTP:
+3. Verify OTP:
 
   otpServices.verify(mobile number with country code, otp, (status, res) => console.log(status, res));
 
-Set OTPexpiry:
+4. Set OTPexpiry:
 
   otpServices.setOtpExpity(1000);
 
-Set OTPlength:
+5. Set OTPlength:
 
   //min length - 4
   
