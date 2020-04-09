@@ -1,6 +1,6 @@
 # OTP-services
-To use msg91 otp services
-
+To use msg91 OTP services
+For documentation refer 'https://docs.msg91.com/collection/msg91-api-integration/5/sendotp/TZ648D1Y'.
 Example:
 
 OptService = require("otpServices.js")
