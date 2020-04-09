@@ -71,6 +71,12 @@ class OtpServices {
     OtpServices.doHttpRequest(options,cb).end();
   }
 
+   /**
+   * @param { number } mobile -> mobile number with country code
+   * @param { number } otp
+   * @param {callback function} cb
+   */
+  
   verify(mobile, otp, cb) {
     const path = `/api/v5/otp/verify?mobile=${mobile}&otp=${otp}&authkey=${this.authKey}`;
     // console.log(encodeURI(path))
@@ -85,6 +91,11 @@ class OtpServices {
     };
     OtpServices.doHttpRequest(options,cb).end();
   }
+  
+   /**
+   * @param { number } mobile -> mobile number with country code
+   * @param {callback function} cb
+   */
 
   resend(mobile, cb) {
     const path = `/api/v5/otp/retry?mobile=${mobile}&authkey=${this.authKey}`;
