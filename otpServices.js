@@ -47,17 +47,20 @@ class OtpServices {
    * @param { number } mobile -> mobile number with country code
    * @param { number } otp
    */
-  send(mobile,cb, otp = "undefined") {
+  send(mobile, cb, otp = "undefined") {
     if (otp === "undefined") {
       otp = OtpServices.generateOtp(this.otpLength);
     }
     let extraParam = {
       COMPANY_NAME: this.companyName,
-      OTP: otp
+      OTP: otp,
     };
-    console.log(otp)
-    const path =
-      `/api/v5/otp?authkey=${this.authKey}&template_id=${this.templateId}&extra_param=${JSON.stringify(extraParam)}&mobile=${mobile}&invisible=${this.invisible}&otp=${otp}&otp_length=${this.otpLength}&otp_expiry=${this.otpExpiry}`;
+    console.log(otp);
+    const path = `/api/v5/otp?authkey=${this.authKey}&template_id=${
+      this.templateId
+    }&extra_param=${JSON.stringify(extraParam)}&mobile=${mobile}&invisible=${
+      this.invisible
+    }&otp=${otp}&otp_length=${this.otpLength}&otp_expiry=${this.otpExpiry}`;
 
     const options = {
       method: "GET",
@@ -65,18 +68,18 @@ class OtpServices {
       port: 443,
       path: encodeURI(path),
       headers: {
-        "content-type": "application/json"
-      }
+        "content-type": "application/json",
+      },
     };
-    OtpServices.doHttpRequest(options,cb).end();
+    OtpServices.doHttpRequest(options, cb).end();
   }
 
-   /**
+  /**
    * @param { number } mobile -> mobile number with country code
    * @param { number } otp
    * @param {callback function} cb
    */
-  
+
   verify(mobile, otp, cb) {
     const path = `/api/v5/otp/verify?mobile=${mobile}&otp=${otp}&authkey=${this.authKey}`;
     // console.log(encodeURI(path))
@@ -86,13 +89,13 @@ class OtpServices {
       port: null,
       path: encodeURI(path),
       headers: {
-        "content-type": "application/json"
-      }
+        "content-type": "application/json",
+      },
     };
-    OtpServices.doHttpRequest(options,cb).end();
+    OtpServices.doHttpRequest(options, cb).end();
   }
-  
-   /**
+
+  /**
    * @param { number } mobile -> mobile number with country code
    * @param {callback function} cb
    */
@@ -105,25 +108,29 @@ class OtpServices {
       port: null,
       path: encodeURI(path),
       headers: {
-        "content-type": "application/json"
-      }
+        "content-type": "application/json",
+      },
     };
-    OtpServices.doHttpRequest(options,cb).end();
+    OtpServices.doHttpRequest(options, cb).end();
   }
 
   static doHttpRequest(options, cb) {
-    return http.request(options, function(res) {
+    return http.request(options, function (res) {
       var chunks = [];
-      res.on("data", function(chunk) {
+      res.on("data", function (chunk) {
         chunks.push(chunk);
       });
-      res.on("end", function() {
-        var body = Buffer.concat(chunks).toString();
-        cb(res.statusCode, JSON.parse(body));
+      res.on("end", function () {
+        const body = Buffer.concat(chunks).toString();
+        if (res.statusCode != 200) {
+          cb("MSG91 Api call failed with response code " + res.statusCode, '');
+        } else {
+          cb(null, JSON.parse(body));
+        }
       });
     });
   }
 }
 
-
 module.exports = OtpServices;
+
